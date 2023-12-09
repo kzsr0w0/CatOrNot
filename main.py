@@ -21,7 +21,7 @@ model.eval() # 推論モード
 def preprocess_image(image: Image.Image) -> torch.Tensor:
     preprocess = transforms.Compose([
         transforms.Resize(256),
-        transform,CenterCrop(224),
+        transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
@@ -29,6 +29,11 @@ def preprocess_image(image: Image.Image) -> torch.Tensor:
 
 # トップページ
 @app.get('/')
+async def read_root():
+    return {"message": "Welcome to the Cat or Not API"}
+
+# 猫のクラスIDリストの定義（例）
+cat_classes_ids = [281, 282, 283, 284, 285]  # これらはImageNetの特定の猫のクラスID
 
 # POST が送信された時（入力）と予測値（出力）の定義
 @app.post('/make_predictions')
@@ -36,7 +41,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     # 画像の読み込みと前処理
     image = Image.open(BytesIO(await file.read())).convert("RGB")
     input_tensor = preprocess_image(image)
-    input_batch = imput_tensor.unsqueeze(0)
+    input_batch = input_tensor.unsqueeze(0)
 
     # 推論
     with torch.no_grad():
