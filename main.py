@@ -19,8 +19,14 @@ def preprocess_image(image: Image.Image) -> torch.Tensor:
     return preprocess(image)
 
 # モデルのロード
+#def load_model():
+#    model = models.vgg16(pretrained=True)
+#    model.eval()
+#    return model
+
 def load_model():
-    model = models.vgg16(pretrained=True)
+    # MobileNet V2モデルを読み込む
+    model = models.mobilenet_v2(pretrained=True)
     model.eval()
     return model
 
