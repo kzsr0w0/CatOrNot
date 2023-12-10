@@ -9,7 +9,7 @@ if uploaded_file is not None:
     # FastAPIに画像を送信
     files = {"file": uploaded_file.getvalue()}
     # ここでURLを文字列として正しく記述
-    response = requests.post("https://catornot.onrender.com/make_predictions", files=files)
+    response = requests.post("https://catornot.onrender.com", files=files)
     #response = requests.post("http://127.0.0.1:8000/make_predictions",files=files)
     # 結果の表示
     if response.status_code == 200:
